@@ -67,15 +67,17 @@ public class LEVEL_1 {
         scene.setOnMouseClicked((MouseEvent) ->
                 {
                     Point p = MouseInfo.getPointerInfo().getLocation();
-                    System.out.println("mouse x :" + p.x);
+                    double x=MouseEvent.getSceneX();
+                    double y = MouseEvent.getSceneY();
+                   /* System.out.println("mouse x :" + p.x);
                     System.out.println("mouse y :" + p.y);
                     System.out.println("farmer y :" + farmer.getPositionY());
                     System.out.println("farmer x :" + farmer.getPositionX());
                     System.out.println("farmer width :" + farmer.getPositionX() + farmer.getWidth());
-                    System.out.println("farmer height :" + farmer.getPositionY() + farmer.getHeight());
+                    System.out.println("farmer height :" + farmer.getPositionY() + farmer.getHeight());*/
 
-                        if ((p.x >= farmer.getPositionX()) && (p.x <= farmer.getPositionX() + farmer.getWidth())
-                                || (p.y <= farmer.getPositionY()) && (p.y <= farmer.getPositionY() + farmer.getHeight())) {
+                        if ((x >= farmer.getPositionX()) && (x <= farmer.getPositionX() + farmer.getWidth())
+                                && (y <= farmer.getPositionY()) && (y <= farmer.getPositionY() + farmer.getHeight())) {
                             controller.setCrossers("farmer");
                             if(controller.isValid())
                                 moveSprite(farmer, wolf, goat, plant, gc, image, image2);
@@ -87,8 +89,8 @@ public class LEVEL_1 {
                             }
 
                         }
-                        else if ((p.x >= goat.getPositionX()) && (p.x <= (goat.getPositionX() + goat.getWidth()))
-                                || (p.y >= goat.getPositionY()) && (p.y <= goat.getPositionY() + goat.getHeight())) {
+                        else if ((x >= goat.getPositionX()) && (x <= (goat.getPositionX() + goat.getWidth()))
+                                || (y >= goat.getPositionY()) && (y <= goat.getPositionY() + goat.getHeight())) {
                             controller.setCrossers("goat");
                             if(controller.isValid())
                                 moveSprite(goat, wolf, farmer, plant, gc, image, image2);
@@ -98,8 +100,8 @@ public class LEVEL_1 {
                                 error.setContentText("Only 2 characters can move on the raft!!");
                                 error.showAndWait();
                             }
-                        } else if ((p.x >= wolf.getPositionX()) && (p.x <= wolf.getPositionX() + wolf.getWidth())
-                                || (p.y >= wolf.getPositionY()) && (p.y <= wolf.getPositionY() + wolf.getHeight())) {
+                        } else if ((x >= wolf.getPositionX()) && (x <= wolf.getPositionX() + wolf.getWidth())
+                                && (y >= wolf.getPositionY()) && (y <= wolf.getPositionY() + wolf.getHeight())) {
                             controller.setCrossers("wolf");
                             if(controller.isValid())
                                 moveSprite(wolf, farmer, farmer, plant, gc, image, image2);
@@ -110,8 +112,8 @@ public class LEVEL_1 {
                                 error.showAndWait();
                             }
 
-                        } else if ((p.x >= plant.getPositionX()) && (p.x <= plant.getPositionX() + plant.getWidth())
-                                || (p.y >= plant.getPositionY()) && (p.y <= plant.getPositionY() + plant.getHeight())) {
+                        } else if ((x >= plant.getPositionX()) && (x <= plant.getPositionX() + plant.getWidth())
+                                && (y >= plant.getPositionY()) && (y <= plant.getPositionY() + plant.getHeight())) {
                             controller.setCrossers("plant");
                             if(controller.isValid())
                                 moveSprite(plant, wolf, goat, farmer, gc, image, image2);

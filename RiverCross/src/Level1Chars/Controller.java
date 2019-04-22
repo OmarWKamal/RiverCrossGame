@@ -6,7 +6,7 @@ import View.start_page;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller implements IRiverCrossingController{
+public class Controller implements IRiverCrossingController, ICrossingStrategy{
     LEVEL_1 level_1;
     Strategy1 strategy1;
     start_page start_page;
@@ -94,6 +94,16 @@ public class Controller implements IRiverCrossingController{
         setLowerBankCrossers();
         UpperBankCrossers.clear();
         crossers.clear();
+    }
+
+    @Override
+    public boolean isValid(List<ICrosser> rightBankCrossers, List<ICrosser> leftBankCrossers, List<ICrosser> boatRiders) {
+                                return false;
+    }
+
+    @Override
+    public List<ICrosser> getInitialCrossers() {
+        return null;
     }
 
     @Override

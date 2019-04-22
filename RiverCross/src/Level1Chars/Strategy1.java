@@ -27,7 +27,7 @@ public class Strategy1 implements ICrossingStrategy{
         }
 
         //one rider must row
-        else if(!canrow)
+        if(!canrow)
             return false;
         //invalid cases of eating ranks
         else if(lowereatingrank == 0 || lowereatingrank == -2)
