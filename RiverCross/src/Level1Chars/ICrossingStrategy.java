@@ -4,7 +4,7 @@ import Level1Chars.ICrosser;
 
 import java.util.List;
 
-public interface ICrossingStrategy {
+public interface ICrossingStrategy  {
     /**
      * @param boatRiders        which the user had selected to be moved to the
      *                          other bank

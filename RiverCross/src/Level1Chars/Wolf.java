@@ -2,7 +2,15 @@ package Level1Chars;
 
 import java.awt.image.BufferedImage;
 
-public class Wolf implements ICrosser {
+public class Wolf implements ICrosser{
+    private static Wolf ourInstance = new Wolf();
+
+    public static synchronized Wolf getInstance() {
+        return ourInstance;
+    }
+
+    private Wolf() {
+    }
     String status;
 
     @Override

@@ -2,7 +2,15 @@ package Level1Chars;
 
 import java.awt.image.BufferedImage;
 
-public class Sheep implements ICrosser {
+public class Sheep implements ICrosser{
+    private static Sheep ourInstance = new Sheep();
+
+    public static synchronized Sheep getInstance() {
+        return ourInstance;
+    }
+
+    private Sheep() {
+    }
     String sheepstatus;
 
     @Override

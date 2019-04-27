@@ -2,7 +2,15 @@ package Level1Chars;
 
 import java.awt.image.BufferedImage;
 
-public class Plant implements ICrosser {
+public class Plant implements ICrosser{
+    private static Plant ourInstance = new Plant();
+
+    public static synchronized                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Plant getInstance() {
+        return ourInstance;
+    }
+
+    private Plant() {
+    }
     String plantstatus;
 
     @Override

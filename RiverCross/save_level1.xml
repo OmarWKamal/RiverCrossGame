@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_201" class="java.beans.XMLDecoder">
+ <object class="Level1Chars.Sprite">
+  <void property="height">
+   <double>123.0</double>
+  </void>
+  <void property="location">
+   <int>4</int>
+  </void>
+  <void property="positionX">
+   <double>50.0</double>
+  </void>
+  <void property="positionY">
+   <double>100.0</double>
+  </void>
+  <void property="rank">
+   <int>3</int>
+  </void>
+  <void property="width">
+   <double>24.0</double>
+  </void>
+ </object>
+ <object class="Level1Chars.Sprite">
+  <void property="height">
+   <double>147.0</double>
+  </void>
+  <void property="location">
+   <int>1</int>
+  </void>
+  <void property="positionX">
+   <double>350.0</double>
+  </void>
+  <void property="positionY">
+   <double>260.0</double>
+  </void>
+  <void property="width">
+   <double>150.0</double>
+  </void>
+ </object>
+ <object class="Level1Chars.Sprite">
+  <void property="height">
+   <double>119.0</double>
+  </void>
+  <void property="location">
+   <int>4</int>
+  </void>
+  <void property="positionX">
+   <double>100.0</double>
+  </void>
+  <void property="positionY">
+   <double>100.0</double>
+  </void>
+  <void property="width">
+   <double>150.0</double>
+  </void>
+ </object>
+ <object class="Level1Chars.Sprite">
+  <void property="height">
+   <double>78.0</double>
+  </void>
+  <void property="location">
+   <int>4</int>
+  </void>
+  <void property="positionX">
+   <double>150.0</double>
+  </void>
+  <void property="positionY">
+   <double>100.0</double>
+  </void>
+  <void property="width">
+   <double>100.0</double>
+  </void>
+ </object>
+ <object class="Level1Chars.Sprite">
+  <void property="height">
+   <double>110.0</double>
+  </void>
+  <void property="location">
+   <int>4</int>
+  </void>
+  <void property="positionX">
+   <double>250.0</double>
+  </void>
+  <void property="positionY">
+   <double>100.0</double>
+  </void>
+  <void property="width">
+   <double>100.0</double>
+  </void>
+ </object>
+</java>

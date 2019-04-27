@@ -6,7 +6,7 @@ import Level1Chars.ICrossingStrategy;
 
 import java.util.List;
 
-public interface IRiverCrossingController {
+public interface IRiverCrossingController  {
 
     /**
      * this method initialize the controller with game strategy according
@@ -79,7 +79,11 @@ public interface IRiverCrossingController {
      * (left bank crossers, right bank crossers, number of done sails,
      position of the boat)
      */
+  
     public void saveGame();
+
+    void saveGame(Sprite farmer, Sprite raft, Sprite goat, Sprite wolf, Sprite plant);
+
     /**
      * load the saved game state
      */
@@ -90,4 +94,5 @@ public interface IRiverCrossingController {
      * until the final solution to show the user the solution
      */
     public List<List<ICrosser>> solveGame();
+
 }

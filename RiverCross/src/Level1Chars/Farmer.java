@@ -7,7 +7,7 @@ public class Farmer implements ICrosser{
 
     private static Farmer farmer = new Farmer();
 
-    public static Farmer getInstance() {
+    public static synchronized Farmer getInstance() {
         return farmer;
     }
 
