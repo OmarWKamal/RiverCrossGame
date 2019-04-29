@@ -30,17 +30,9 @@ public class LEVEL_2 {
 	}
 
 
-
-	/**
-	 * @return the scene
-	 */
 	public Scene getScene() {
 		return scene;
 	}
-
-	/**
-	 * @param scene the scene to set
-	 */
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
@@ -66,7 +58,7 @@ public class LEVEL_2 {
 		savebtn.setPositionX(150);
 		savebtn.setPositionY(0);
 		savebtn.render(gc);
-		Image loadimg = new Image("Assets/loadbtn.pngs");
+		Image loadimg = new Image("Assets/loadbtn.png");
 		Sprite2 loadbtn = new Sprite2(loadimg);
 		loadbtn.setPositionX(250);
 		loadbtn.setPositionY(0);
@@ -116,7 +108,7 @@ public class LEVEL_2 {
 		bag.setPositionY(450);
 		bag.render(gc);
 
-		Image button_img = new Image("Assets/button.pngre");
+		Image button_img = new Image("Assets/button.png");
 		Sprite2 movebtn = new Sprite2(button_img);
 		movebtn.setPositionX(500);
 		movebtn.setPositionY(0);

@@ -538,6 +538,21 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     }
 
     @Override
+    public void saveGame(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag) {
+
+    }
+
+    @Override
+    public void saveGame2(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag) {
+
+    }
+
+    @Override
+    public void loadGame2() {
+
+    }
+
+    @Override
     public List<List<ICrosser>> solveGame() {
         return null;
     }
