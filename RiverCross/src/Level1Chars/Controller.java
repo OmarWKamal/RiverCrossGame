@@ -19,11 +19,12 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     LEVEL_1 level_1;
     Strategy strategy1;
     start_page start_page;
-    public Sprite x1; //farmer/
-    public Sprite x2; //raft
-    public Sprite x3; //goat
-    public Sprite x4; //wolf
-    public Sprite x5; //plant
+    public Sprite2 x1; //farmer/
+    public Sprite2 x2; //raft
+    public Sprite2 x3; //goat
+    public Sprite2 x4; //wolf
+    public Sprite2 x5; //plant
+    public Sprite2 x6; //star
     public Controller() {
     }
 
@@ -237,7 +238,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
 
     public boolean success()
     {
-        System.out.println(UpperBankCrossers.size() + "   "  +LowerBankCrossers.size() + "   "+  crossers.size());
+       // System.out.println(UpperBankCrossers.size() + "   "  +LowerBankCrossers.size() + "   "+  crossers.size());
         if(UpperBankCrossers.size() == 4 && LowerBankCrossers.size() == 0 && crossers.size() == 0)
             return true;
         else
@@ -425,7 +426,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     }
 
     @Override
-    public void saveGame( 	Sprite farmer,Sprite raft,Sprite goat,Sprite wolf , Sprite plant  ) {
+    public void saveGame(Sprite2 farmer, Sprite2 raft, Sprite2 goat, Sprite2 wolf , Sprite2 plant) {
         try {
             //	FileOutputStream filestream = new FileOutputStream(new File("./save_level1.xml"));
             XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream(new File (("./save_level1.xml")))));
@@ -454,11 +455,11 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
             file = new FileInputStream (new File("./save_level1.xml"));
             XMLDecoder decoder = new XMLDecoder(file);
 
-            x1 = (Sprite) decoder.readObject();
-            x2= (Sprite) decoder.readObject();
-            x3= (Sprite) decoder.readObject();
-            x4 = (Sprite) decoder.readObject();
-            x5= (Sprite) decoder.readObject();
+            x1 = (Sprite2) decoder.readObject();
+            x2= (Sprite2) decoder.readObject();
+            x3= (Sprite2) decoder.readObject();
+            x4 = (Sprite2) decoder.readObject();
+            x5= (Sprite2) decoder.readObject();
             decoder.close();
 
             System.out.println("farmer location " + x1.getLocation());
@@ -541,4 +542,19 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
         return null;
     }
 
+    public boolean checkLoad() {
+        FileInputStream file;
+        try {
+            file = new FileInputStream (new File("./save_level1.xml"));
+            //file = new FileInputStream (new File("save_level1.xml"));
+            if(file!=null)
+                return true;
+            else
+                return false;
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

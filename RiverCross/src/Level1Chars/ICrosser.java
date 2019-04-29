@@ -10,7 +10,7 @@ public interface ICrosser {
 
     //@return get the weight of the crosser
 
-    double getWeight();
+    int getWeight();
 
     /* @return get the eating rank of the crosser
      * this rank can be used to detect if one

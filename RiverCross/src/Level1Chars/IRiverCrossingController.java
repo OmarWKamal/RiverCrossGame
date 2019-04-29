@@ -1,8 +1,5 @@
 package Level1Chars;
 
-import Level1Chars.ICrosser;
-import Level1Chars.ICrossingStrategy;
-
 
 import java.util.List;
 
@@ -82,12 +79,19 @@ public interface IRiverCrossingController  {
   
     public void saveGame();
 
-    void saveGame(Sprite farmer, Sprite raft, Sprite goat, Sprite wolf, Sprite plant);
+    void saveGame(Sprite2 farmer, Sprite2 raft, Sprite2 goat, Sprite2 wolf, Sprite2 plant);
 
     /**
      * load the saved game state
      */
     public void loadGame();
+
+    void saveGame(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag);
+
+    void saveGame2(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag);
+
+    void   loadGame2();
+
     /**
      * this function is bonus
      * it returns the boat riders starting from the beginning of the game

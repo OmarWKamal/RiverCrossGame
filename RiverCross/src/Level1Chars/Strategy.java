@@ -35,13 +35,13 @@ public class Strategy implements ICrossingStrategy {
         for(int i = 0; i < lowerBankCrossers.size(); i++)
         {
             lowereatingrank += lowerBankCrossers.get(i).getEatingRank();
-            System.out.println("lowereating rank is " + lowereatingrank);
+          //  System.out.println("lowereating rank is " + lowereatingrank);
         }
         //calculating eatingrank of upperbank
         for(int i = 0; i < upperBankCrossers.size(); i++)
         {
             uppereatingrank += upperBankCrossers.get(i).getEatingRank();
-            System.out.println("uppereating rank is " + uppereatingrank);
+            //System.out.println("uppereating rank is " + uppereatingrank);
         }
 
         //one rider must row
@@ -51,15 +51,15 @@ public class Strategy implements ICrossingStrategy {
         }
         //invalid cases of eating ranks
         else if((lowereatingrank == 0 && lowerBankCrossers.size() > 1) || (lowereatingrank == -2 && lowerBankCrossers.size() > 1)){
-            System.out.println("error in lower eating rank    " + lowerBankCrossers.size() + " size ");
+          //  System.out.println("error in lower eating rank    " + lowerBankCrossers.size() + " size ");
             return false;
         }
         else if((uppereatingrank == 0 && upperBankCrossers.size() > 1) || (uppereatingrank == -2 && upperBankCrossers.size() > 1)){
-            System.out.println("error in upper eating rank ");
+        //    System.out.println("error in upper eating rank ");
             return false;
         }
         else if(crossersOnRaft == false) {
-            System.out.println("error in number of rowers");
+           // System.out.println("error in number of rowers");
             return false;
         }
         else

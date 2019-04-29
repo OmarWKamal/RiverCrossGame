@@ -20,7 +20,7 @@ public class Farmer implements ICrosser{
     }
 
     @Override
-    public double getWeight() {
+    public int getWeight() {
         return 0;
     }
 

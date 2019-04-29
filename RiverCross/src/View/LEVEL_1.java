@@ -5,62 +5,45 @@ import Level1Chars.GameStates.CareTaker;
 import Level1Chars.GameStates.GameState;
 import Level1Chars.GameStates.Originator;
 import Level1Chars.GameStates.SpriteGameState;
-import Level1Chars.ICrosser;
-import Level1Chars.Sprite;
+import Level1Chars.Sprite2;
 import Level1Chars.Strategy;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class LEVEL_1 implements java.io.Serializable {
+    private boolean gamestate; // false for a char undo, true for a move undo
+    private Image farmer_img = new Image("Assets/farmer.png");
+    private Sprite2 farmer = new Sprite2(farmer_img);
+    private Image wolf_img = new Image("Assets/wolf.png");
+    private Sprite2 wolf = new Sprite2(wolf_img);
+    private Image goat_img = new Image("Assets/sheep.png");
+    private Sprite2 goat = new Sprite2(goat_img);
+    private Image raftImage = new Image("Assets/raft.png");
+    private Sprite2 raft = new Sprite2(raftImage);
+    private Image plant_img = new Image("Assets/plant.png");
+    private Sprite2 plant = new Sprite2(plant_img);
+    private SpriteGameState farmerState;
+    private SpriteGameState raftState;
+    private SpriteGameState goatState;
+    private SpriteGameState wolfState;
+    private SpriteGameState plantState;
+    private GameState gameState;
+    //*******************************************************************************************************
+    private boolean riftLocation = false; //false lower, true upper
+    private int rowers = 0;
+    private int numOfSails = 0;
     private Stage stage;
     private Scene scene;
     private start_page startpage;
     private Strategy strategy1;
     private Controller controller;
-
-    public Controller getController() {
-        return controller;
-    }
-
     private Originator originator;
     private CareTaker caretaker;
-    boolean gamestate; // false for a char undo, true for a move undo
-
-
-    Image farmer_img = new Image("Assets/farmer.png");
-    Sprite farmer = new Sprite(farmer_img);
-    Image wolf_img = new Image("Assets/wolf.png");
-    Sprite wolf = new Sprite(wolf_img);
-    Image goat_img = new Image("Assets/sheep.png");
-    Sprite goat = new Sprite(goat_img);
-    Image raftImage = new Image("Assets/raft.png");
-    Sprite raft = new Sprite(raftImage);
-    Image plant_img = new Image("Assets/plant.png");
-    Sprite plant = new Sprite(plant_img);
-
-    SpriteGameState farmerState;
-    SpriteGameState raftState;
-    SpriteGameState goatState;
-    SpriteGameState wolfState;
-    SpriteGameState plantState;
-    GameState gameState;
-    //*******************************************************************************************************
-    boolean riftLocation = false; //false lower, true upper
-    int rowers = 0;
-    int numOfSails = 0;
-    int numOfundos = 2;
 
     public LEVEL_1() {
     }
@@ -68,6 +51,14 @@ public class LEVEL_1 implements java.io.Serializable {
     //*******************************************************************************************************
     public LEVEL_1(Stage stage) {
         this.stage = stage;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public boolean getRiftLocation() {
@@ -78,8 +69,6 @@ public class LEVEL_1 implements java.io.Serializable {
         return numOfSails;
     }
 
-
-
     public void scene_build() {
         originator = new Originator();
         caretaker = new CareTaker();
@@ -88,24 +77,40 @@ public class LEVEL_1 implements java.io.Serializable {
         root.getChildren().add(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Image image = new Image("Assets/background.png");
-        Sprite background = new Sprite(image);
+        Sprite2 background = new Sprite2(image);
         background.setPositionX(0);
         background.setPositionY(0);
         background.render(gc);
         Image saveimg = new Image("Assets/save button.png");
-        Sprite savebtn = new Sprite(saveimg);
+        Sprite2 savebtn = new Sprite2(saveimg);
         savebtn.setPositionX(150);
         savebtn.setPositionY(0);
         savebtn.render(gc);
         Image loadimg = new Image("Assets/loadbtn.png");
-        Sprite loadbtn = new Sprite(loadimg);
+        Sprite2 loadbtn = new Sprite2(loadimg);
         loadbtn.setPositionX(250);
         loadbtn.setPositionY(0);
         loadbtn.render(gc);
 
         //*******************************************************
-        Button undo = new Button("Undo!!");
-        root.getChildren().add(1, undo);
+        Image instructions = new Image("Assets/show.png");
+        Sprite2 showbtn = new Sprite2(instructions);
+        showbtn.setPositionX(400);
+        showbtn.setPositionY(0);
+        showbtn.render(gc);
+
+
+        //*******************************************************
+        Image undoimage = new Image("Assets/undo.png");
+        Sprite2 undo = new Sprite2(undoimage);
+        undo.setPositionX(0);
+        undo.setPositionY(100);
+        undo.render(gc);
+        Image redoimage = new Image("Assets/redo.png");
+        Sprite2 redo = new Sprite2(redoimage);
+        redo.setPositionX(0);
+        redo.setPositionY(300);
+        redo.render(gc);
         //*******************************************************
 
 
@@ -129,7 +134,7 @@ public class LEVEL_1 implements java.io.Serializable {
         raft.render(gc);
 
         Image button_img = new Image("Assets/button.png");
-        Sprite movebtn = new Sprite(button_img);
+        Sprite2 movebtn = new Sprite2(button_img);
         movebtn.setPositionX(500);
         movebtn.setPositionY(0);
         movebtn.render(gc);
@@ -139,99 +144,153 @@ public class LEVEL_1 implements java.io.Serializable {
         plant.render(gc);
 
         Image resetimg = new Image("Assets/reset-button.png");
-        Sprite resetbtn = new Sprite(resetimg);
+        Sprite2 resetbtn = new Sprite2(resetimg);
         resetbtn.setPositionX(0);
         resetbtn.setPositionY(0);
         resetbtn.render(gc);
 
         //******************************************************************
-
-
         setGameState(farmer, raft, goat, wolf, plant);
-
-
-
-        System.out.println("farmer state " + farmerState.getPositionX());
-        System.out.println("farmergamestateeeeee state " + gameState.getFarmerState().getPositionX());
-
-
-        System.out.println("size of memento is  " + caretaker.mementoSize());
         //******************************************************************
 
-
-        undo.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                GameState oldGameState = new GameState();
-                rowers = (rowers%2)+1;
-                System.out.println("rowersssssss:      " + rowers);
-                if (gamestate) {
-                    oldGameState = (GameState) originator.restoreFromMemento(caretaker.getMementoUndoMove(rowers));
-                } else {
-                    if((oldGameState = (GameState) originator.restoreFromMemento(caretaker.getMementoUndoChar())) != null) {
-                       // oldGameState = (GameState) originator.restoreFromMemento(caretaker.getMementoUndoChar());
-                    } else {showerror();}
-                }
-                if (oldGameState != null) {
-                    farmer.setPositionX(oldGameState.getFarmerState().getPositionX());
-                    farmer.setPositionY(oldGameState.getFarmerState().getPositionY());
-                    farmer.setLocation(oldGameState.getFarmerState().getLocation());
-                    System.out.println("farmerlocation   " + farmer.getLocation());
-                    controller.checkFarmerLocation(farmer.getLocation());
-
-                    goat.setPositionX(oldGameState.getGoatState().getPositionX());
-                    goat.setPositionY(oldGameState.getGoatState().getPositionY());
-                    goat.setLocation(oldGameState.getGoatState().getLocation());
-                    System.out.println("goatlocation   " + goat.getLocation());
-                    controller.checkGoatLocation(goat.getLocation());
-
-                    System.out.println("wolflocation   " + wolf.getLocation());
-                    wolf.setPositionX(oldGameState.getWolfState().getPositionX());
-                    wolf.setPositionY(oldGameState.getWolfState().getPositionY());
-                    wolf.setLocation(oldGameState.getWolfState().getLocation());
-                    controller.checkWolfLocation(wolf.getLocation());
-
-                    raft.setPositionX(oldGameState.getRaftState().getPositionX());
-                    raft.setPositionY(oldGameState.getRaftState().getPositionY());
-                    raft.setLocation(oldGameState.getRaftState().getLocation());
-                    System.out.println("raftlocation   " + raft.getLocation());
-
-                    plant.setPositionX(oldGameState.getPlantState().getPositionX());
-                    plant.setPositionY(oldGameState.getPlantState().getPositionY());
-                    plant.setLocation(oldGameState.getPlantState().getLocation());
-                    System.out.println("plantlocation   " + plant.getLocation());
-                    controller.checkPlantLocation(plant.getLocation());
-
-                    renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
-
-                    //controller.setCrossers(oldGameState.getCrossers());
-                    //controller.setLowerBankCrossers(oldGameState.getLowerBankCrossers());
-                    //controller.setUpperBankCrossers(oldGameState.getUpperBankCrossers());
-                    System.out.println(controller.getCrossers().size() + " crossers size");
-                    System.out.println(controller.getLowerBankCrossers().size() + " lowercrossers size");
-                    System.out.println(controller.getUpperBankCrossers().size() + " uppercrossers size");
-
-                    setGameState(farmer, raft, goat, wolf, plant);
-                    numOfundos++;
-                } else{showerror();}
-            }
-        });
 
         scene.setOnMouseClicked((MouseEvent) ->
                 {
                     double x = MouseEvent.getSceneX();
                     double y = MouseEvent.getSceneY();
 
+                    if ((x >= undo.getPositionX()) && (x < undo.getPositionX() + undo.getWidth())
+                            && (y >= undo.getPositionY()) && (y < undo.getPositionY() + undo.getHeight())) {
+                        if (caretaker.getGamestatesUndo().empty()) {
+                            showerror("No more Undos!!");
+                        } else {
+                            GameState oldGameState = new GameState();
+                            if (gamestate) {
+                                rowers = (rowers % 2) + 2;
+                                oldGameState = (GameState) originator.restoreFromMemento(caretaker.getMementoUndoMove(rowers));
+                            } else {
+                                oldGameState = (GameState) originator.restoreFromMemento(caretaker.getMementoUndoChar());
+                                if (oldGameState != null) {
+                                    rowers--;
+                                } else {
+                                    showerror("No more undos!!");
+                                }
+                            }
+                                farmer.setPositionX(oldGameState.getFarmerState().getPositionX());
+                                farmer.setPositionY(oldGameState.getFarmerState().getPositionY());
+                                farmer.setLocation(oldGameState.getFarmerState().getLocation());
+                                System.out.println("farmerlocation   " + farmer.getLocation());
+                                controller.checkFarmerLocation(farmer.getLocation());
+
+                                goat.setPositionX(oldGameState.getGoatState().getPositionX());
+                                goat.setPositionY(oldGameState.getGoatState().getPositionY());
+                                goat.setLocation(oldGameState.getGoatState().getLocation());
+                                System.out.println("goatlocation   " + goat.getLocation());
+                                controller.checkGoatLocation(goat.getLocation());
+
+                                System.out.println("wolflocation   " + wolf.getLocation());
+                                wolf.setPositionX(oldGameState.getWolfState().getPositionX());
+                                wolf.setPositionY(oldGameState.getWolfState().getPositionY());
+                                wolf.setLocation(oldGameState.getWolfState().getLocation());
+                                controller.checkWolfLocation(wolf.getLocation());
+
+                                raft.setPositionX(oldGameState.getRaftState().getPositionX());
+                                raft.setPositionY(oldGameState.getRaftState().getPositionY());
+                                raft.setLocation(oldGameState.getRaftState().getLocation());
+                                System.out.println("raftlocation   " + raft.getLocation());
+
+                                plant.setPositionX(oldGameState.getPlantState().getPositionX());
+                                plant.setPositionY(oldGameState.getPlantState().getPositionY());
+                                plant.setLocation(oldGameState.getPlantState().getLocation());
+                                System.out.println("plantlocation   " + plant.getLocation());
+                                controller.checkPlantLocation(plant.getLocation());
+
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
+
+                                System.out.println(raft.getPositionY());
+                                System.out.println(controller.getCrossers().size() + " crossers size");
+                                System.out.println(controller.getLowerBankCrossers().size() + " lowercrossers size");
+                                System.out.println(controller.getUpperBankCrossers().size() + " uppercrossers size");
+
+                                setGameState(farmer, raft, goat, wolf, plant);
+                                numOfSails--;
+                                rowers = 0;
+
+                        }
+
+                    }
+
+
+                    if ((x >= redo.getPositionX()) && (x < redo.getPositionX() + redo.getWidth())
+                            && (y >= redo.getPositionY()) && (y < redo.getPositionY() + redo.getHeight())) {
+                        GameState oldGameState = new GameState();
+                        if (caretaker.getGamestatesRedo().empty()) {
+                            showerror("No more redos!!");
+                        } else {
+                            oldGameState = (GameState) originator.restoreFromMemento(caretaker.redoGameState());
+                            farmer.setPositionX(oldGameState.getFarmerState().getPositionX());
+                            farmer.setPositionY(oldGameState.getFarmerState().getPositionY());
+                            farmer.setLocation(oldGameState.getFarmerState().getLocation());
+                            System.out.println("farmerlocation   " + farmer.getLocation());
+                            controller.checkFarmerLocation(farmer.getLocation());
+
+                            goat.setPositionX(oldGameState.getGoatState().getPositionX());
+                            goat.setPositionY(oldGameState.getGoatState().getPositionY());
+                            goat.setLocation(oldGameState.getGoatState().getLocation());
+                            System.out.println("goatlocation   " + goat.getLocation());
+                            controller.checkGoatLocation(goat.getLocation());
+
+                            System.out.println("wolflocation   " + wolf.getLocation());
+                            wolf.setPositionX(oldGameState.getWolfState().getPositionX());
+                            wolf.setPositionY(oldGameState.getWolfState().getPositionY());
+                            wolf.setLocation(oldGameState.getWolfState().getLocation());
+                            controller.checkWolfLocation(wolf.getLocation());
+
+                            raft.setPositionX(oldGameState.getRaftState().getPositionX());
+                            raft.setPositionY(oldGameState.getRaftState().getPositionY());
+                            raft.setLocation(oldGameState.getRaftState().getLocation());
+                            System.out.println("raftlocation   " + raft.getLocation());
+
+                            plant.setPositionX(oldGameState.getPlantState().getPositionX());
+                            plant.setPositionY(oldGameState.getPlantState().getPositionY());
+                            plant.setLocation(oldGameState.getPlantState().getLocation());
+                            System.out.println("plantlocation   " + plant.getLocation());
+
+                            controller.setCrossers(oldGameState.getCrossers());
+                            controller.setUpperBankCrossers(oldGameState.getUpperBankCrossers());
+                            controller.setLowerBankCrossers(oldGameState.getLowerBankCrossers());
+
+                            raft.setPositionY(oldGameState.getRaftState().getPositionY());
+                            System.out.println(raft.getPositionY());
+                            raft.render(gc);
+                            //setGameState(farmer, raft, goat, wolf, plant);
+                            controller.checkPlantLocation(plant.getLocation());
+                            renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
+                        }
+
+                    }
+
+
+                    if ((x >= showbtn.getPositionX()) && (x < showbtn.getPositionX() + showbtn.getWidth())
+                            && (y >= showbtn.getPositionY()) && (y < showbtn.getPositionY() + showbtn.getHeight())) {
+                        Alert rulealert = new Alert(Alert.AlertType.INFORMATION);
+                        rulealert.setHeaderText("RULES ");
+                        rulealert.setContentText(
+                                " 1- farmer only can row the raft \n 2- you can't leave goat and wolf alone without the farmer\n "
+                                        + "3- you can't leave goat and plant together without the farmer \n"
+                                        + " 4- the raft can left only two crossers");
+                        rulealert.showAndWait();
+                    }
 
                     if ((x >= resetbtn.getPositionX()) && (x < resetbtn.getPositionX() + resetbtn.getWidth())
                             && (y >= resetbtn.getPositionY()) && (y < resetbtn.getPositionY() + resetbtn.getHeight())) {
                         gc.clearRect(0, 0, 600, 600);
                         initializePositions();
 
-                        //setGameState(farmer, raft, goat, wolf, plant);
                         caretaker.clearStacks();
 
-                        undo.setDisable(true);
+                        //undo.setDisable(true);
+                        farmer.setRank(0);
 
                         //reset sprites's locaiton*********************************************************************
                         farmer.setLocation(1);
@@ -240,32 +299,37 @@ public class LEVEL_1 implements java.io.Serializable {
                         goat.setLocation(1);
                         //*********************************************************************************************
 
-                        renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                        setGameState(farmer, raft, goat, wolf, plant);
+                        renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                         controller.resetGame();
                     }
                     if ((x >= loadbtn.getPositionX()) && (x < loadbtn.getPositionX() + loadbtn.getWidth())
                             && (y >= loadbtn.getPositionY()) && (y < loadbtn.getPositionY() + loadbtn.getHeight())) {
-                        controller.loadGame();
-                        farmer.setPositionX(controller.x1.getPositionX());
-                        farmer.setPositionY(controller.x1.getPositionY());
-                        raft.setPositionX(controller.x2.getPositionX());
-                        raft.setPositionY(controller.x2.getPositionY());
-                        goat.setPositionX(controller.x3.getPositionX());
-                        goat.setPositionY(controller.x3.getPositionY());
-                        wolf.setPositionX(controller.x4.getPositionX());
-                        wolf.setPositionY(controller.x4.getPositionY());
-                        plant.setPositionX(controller.x5.getPositionX());
-                        plant.setPositionY(controller.x5.getPositionY());
+                        if (controller.checkLoad()) {
+                            controller.loadGame();
+                            farmer.setPositionX(controller.x1.getPositionX());
+                            farmer.setPositionY(controller.x1.getPositionY());
+                            raft.setPositionX(controller.x2.getPositionX());
+                            raft.setPositionY(controller.x2.getPositionY());
+                            goat.setPositionX(controller.x3.getPositionX());
+                            goat.setPositionY(controller.x3.getPositionY());
+                            wolf.setPositionX(controller.x4.getPositionX());
+                            wolf.setPositionY(controller.x4.getPositionY());
+                            plant.setPositionX(controller.x5.getPositionX());
+                            plant.setPositionY(controller.x5.getPositionY());
 
-                        farmer.setLocation(controller.x1.getLocation());
-                        raft.setLocation(controller.x2.getLocation());
-                        goat.setLocation(controller.x3.getLocation());
-                        wolf.setLocation(controller.x4.getLocation());
-                        plant.setLocation(controller.x5.getLocation());
-                        setGameState(farmer, raft, goat, wolf, plant);
-                        undo.setDisable(false);
-                        renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
-
+                            farmer.setLocation(controller.x1.getLocation());
+                            raft.setLocation(controller.x2.getLocation());
+                            goat.setLocation(controller.x3.getLocation());
+                            wolf.setLocation(controller.x4.getLocation());
+                            plant.setLocation(controller.x5.getLocation());
+                            setGameState(farmer, raft, goat, wolf, plant);
+                            //  undo.setDisable(false);
+                            renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
+                            numOfSails = farmer.getRank();
+                        } else {
+                            showerror("Error loading");
+                        }
                     }
                     if ((x >= savebtn.getPositionX()) && (x < savebtn.getPositionX() + savebtn.getWidth())
                             && (y >= savebtn.getPositionY()) && (y < savebtn.getPositionY() + savebtn.getHeight())) {
@@ -273,76 +337,88 @@ public class LEVEL_1 implements java.io.Serializable {
                     }
                     if (raft.getPositionY() == 320) {
                         if ((x >= farmer.getPositionX()) && (x < farmer.getPositionX() + farmer.getWidth())
-                                && (y >= farmer.getPositionY()) && (y < farmer.getPositionY() + farmer.getHeight())) {
+                                && (y >= farmer.getPositionY()) && (y < farmer.getPositionY() + farmer.getHeight()) && farmer.getLocation() == 1
+                                && raft.getPositionY() == 320) {
+
                             controller.setCrossersMovingUp("farmer");
                             if (controller.CrosserOnRift()) {
                                 farmer.setPositionX(380);
                                 farmer.setPositionY(310);
                                 farmer.setLocation(2);
+
+                                rowers++;
                                 gamestate = false;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                //  undo.setDisable(false);
 
                                 System.out.println("*****************size of memento is  " + caretaker.mementoSize());
                                 gc.drawImage(raftImage, 350, 320);
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                showbtn.render(gc);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
 
                         } else if ((x >= goat.getPositionX()) && (x < (goat.getPositionX() + goat.getWidth()))
-                                && (y >= goat.getPositionY()) && (y < goat.getPositionY() + goat.getHeight())) {
+                                && (y >= goat.getPositionY()) && (y < goat.getPositionY() + goat.getHeight()) && goat.getLocation() == 1) {
                             controller.setCrossersMovingUp("goat");
                             if (controller.CrosserOnRift()) {
                                 goat.setPositionX(370);
                                 goat.setPositionY(310);
                                 goat.setLocation(2);
 
+                                rowers++;
                                 gamestate = false;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                // undo.setDisable(false);
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                showbtn.render(gc);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
+
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
                         } else if ((x >= wolf.getPositionX()) && (x < wolf.getPositionX() + wolf.getWidth())
-                                && (y >= wolf.getPositionY()) && (y < wolf.getPositionY() + wolf.getHeight())) {
+                                && (y >= wolf.getPositionY()) && (y < wolf.getPositionY() + wolf.getHeight()) && wolf.getLocation() == 1) {
                             controller.setCrossersMovingUp("wolf");
                             if (controller.CrosserOnRift()) {
                                 wolf.setPositionX(360);
                                 wolf.setPositionY(310);
                                 wolf.setLocation(2);
 
+                                showbtn.render(gc);
+                                rowers++;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                // undo.setDisable(false);
                                 gamestate = false;
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
 
                         } else if ((x >= plant.getPositionX()) && (x < plant.getPositionX() + plant.getWidth())
-                                && (y >= plant.getPositionY()) && (y < plant.getPositionY() + plant.getHeight())) {
+                                && (y >= plant.getPositionY()) && (y < plant.getPositionY() + plant.getHeight()) && plant.getLocation() == 1) {
                             controller.setCrossersMovingUp("plant");
                             if (controller.CrosserOnRift()) {
                                 plant.setPositionX(360);
                                 plant.setPositionY(310);
                                 plant.setLocation(2);
 
+                                showbtn.render(gc);
+                                rowers++;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                // undo.setDisable(false);
                                 gamestate = false;
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
                         } else if ((x >= 500) && (x < 500 + button_img.getWidth()) && (y >= 0) && (y < 0 + button_img.getHeight())) {
                             if (controller.canMove(controller.getCrossers(), true)) {
@@ -370,34 +446,41 @@ public class LEVEL_1 implements java.io.Serializable {
                                 riftLocation = true;
                                 gamestate = true;
                                 numOfSails++;
-                                undo.setDisable(false);
+                                farmer.setRank(numOfSails);
+                                //  undo.setDisable(false);
                                 controller.clearcrossers();
                                 gc.drawImage(raftImage, 260, 320);
                                 setGameState(farmer, raft, goat, wolf, plant);
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                showbtn.render(gc);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
 
                                 if (controller.success()) {
+                                    farmer.setFinish(1);
+                                    farmer.setRank(numOfSails);
                                     Alert successalert = new Alert(Alert.AlertType.INFORMATION);
                                     successalert.setHeaderText("Congratulations!! ");
 
-                                    if (numOfSails <= 8) {
-                                        farmer.setRank(3);
+                                    if (farmer.getRank() == 7) {
                                         successalert.setContentText("Your rank is: \n ***");
                                         successalert.showAndWait();
-                                    } else if ((numOfSails <= 11) && (numOfSails > 7)) {
-                                        farmer.setRank(2);
+                                    } else if ((farmer.getRank() <= 11) && (farmer.getRank() > 7)) {
                                         successalert.setContentText("Your rank is: \n **");
                                         successalert.showAndWait();
                                     } else {
-                                        farmer.setRank(1);
                                         successalert.setContentText("Your rank is: \n *");
                                         successalert.showAndWait();
                                     }
                                     controller.saveGame(farmer, raft, goat, wolf, plant);
                                     controller.resetGame();
-                                    undo.setDisable(true);
+//                                    controller2.loadGame();
+                                    //    undo.setDisable(true);
                                     caretaker.clearStacks();
+
+                                    //****************************************************
+                                    startpage.scene_build();
+                                    //****************************************************
+
 
                                     stage.setScene(startpage.getScene());
                                     initializePositions();
@@ -409,67 +492,69 @@ public class LEVEL_1 implements java.io.Serializable {
                                     goat.setLocation(1);
                                     //**************
 
-                                    renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                    renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
+
                                 }
-                            } else {
-                                showerror();
-                            }
+                            } else
+                                showerror("Invalid Move!!");
                         }
                     } else if (raft.getPositionY() == 260) {
                         if ((x >= farmer.getPositionX()) && (x < farmer.getPositionX() + farmer.getWidth())
-                                && (y >= farmer.getPositionY()) && (y < farmer.getPositionY() + farmer.getHeight())) {
+                                && (y >= farmer.getPositionY()) && (y < farmer.getPositionY() + farmer.getHeight()) && farmer.getLocation() == 4) {
                             controller.setCrossersMovingDown("farmer");
                             if (controller.CrosserOnRift()) {
                                 farmer.setPositionX(350);
                                 farmer.setPositionY(260);
                                 farmer.setLocation(3);
 
+                                rowers++;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                //undo.setDisable(false);
                                 gamestate = false;
-                                // gc.drawImage(raftImage, 260, 320);
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
-                                //moveSprite(farmer, wolf, goat, plant, gc, image, raftImage, button_img);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
 
                         } else if ((x >= goat.getPositionX()) && (x < (goat.getPositionX() + goat.getWidth()))
-                                && (y >= goat.getPositionY()) && (y < goat.getPositionY() + goat.getHeight())) {
+                                && (y >= goat.getPositionY()) && (y < goat.getPositionY() + goat.getHeight()) && goat.getLocation() == 4) {
                             controller.setCrossersMovingDown("goat");
                             if (controller.CrosserOnRift()) {
                                 goat.setPositionX(360);
                                 goat.setPositionY(260);
                                 goat.setLocation(3);
 
+                                rowers++;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                //undo.setDisable(false);
                                 gamestate = false;
                                 //gc.drawImage(raftImage, 350, 320);
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 //moveSprite(goat, wolf, farmer, plant, gc, image, raftImage, button_img);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
                         } else if ((x >= wolf.getPositionX()) && (x < wolf.getPositionX() + wolf.getWidth())
-                                && (y >= wolf.getPositionY()) && (y < wolf.getPositionY() + wolf.getHeight())) {
+                                && (y >= wolf.getPositionY()) && (y < wolf.getPositionY() + wolf.getHeight()) && wolf.getLocation() == 4) {
                             controller.setCrossersMovingDown("wolf");
                             if (controller.CrosserOnRift()) {
                                 wolf.setPositionX(360);
                                 wolf.setPositionY(260);
                                 wolf.setLocation(3);
+
+                                rowers++;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                // undo.setDisable(false);
                                 gamestate = false;
 
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 //  moveSprite(wolf, farmer, farmer, plant, gc, image, raftImage, button_img);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
 
                         } else if ((x >= plant.getPositionX()) && (x < plant.getPositionX() + plant.getWidth())
@@ -479,13 +564,15 @@ public class LEVEL_1 implements java.io.Serializable {
                                 plant.setPositionX(360);
                                 plant.setPositionY(260);
                                 plant.setLocation(3);
+
+                                rowers++;
                                 setGameState(farmer, raft, goat, wolf, plant);
-                                undo.setDisable(false);
+                                //undo.setDisable(false);
                                 gamestate = false;
-                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn);
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
                                 System.out.println(controller.canMove(controller.getCrossers(), true));
                             } else {
-                                showerror();
+                                showerror("Only 2 can row!!");
                             }
                         } else if ((x >= 500) && (x < 500 + button_img.getWidth()) && (y >= 0) && (y < 0 + button_img.getHeight())) {
                             if (controller.canMove(controller.getCrossers(), true)) {
@@ -513,31 +600,17 @@ public class LEVEL_1 implements java.io.Serializable {
                                 gamestate = true;
                                 setGameState(farmer, raft, goat, wolf, plant);
                                 numOfSails++;
-                                undo.setDisable(false);
                                 riftLocation = false;
-
-                                background.render(gc);
-                                raft.setPositionX(350);
                                 raft.setPositionY(320);
                                 raft.render(gc);
-                                farmer.render(gc);
-                                goat.render(gc);
-                                savebtn.render(gc);
-                                resetbtn.render(gc);
-                                loadbtn.render(gc);
 
-                                plant.render(gc);
-                                wolf.render(gc);
-                                movebtn.render(gc);
-                            } else {
-                                showerror();
-                            }
+                                renderSprites(gc, background, savebtn, resetbtn, loadbtn, movebtn, showbtn, undo, redo);
+                            } else
+                                showerror("Invalid Move!!");
                         }
                     }
                 }
         );
-
-
     }
 
     public Scene getScene() {
@@ -548,10 +621,10 @@ public class LEVEL_1 implements java.io.Serializable {
         this.startpage = startpage;
     }
 
-    private void showerror() {
+    private void showerror(String errorstring) {
         Alert error = new Alert(Alert.AlertType.INFORMATION);
         error.setHeaderText("Maximum number of rowers!");
-        error.setContentText("Only 2 characters can move on the raft!!");
+        error.setContentText(errorstring);
         error.showAndWait();
     }
 
@@ -559,18 +632,12 @@ public class LEVEL_1 implements java.io.Serializable {
         this.strategy1 = strategy;
     }
 
-
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
     public void setStage(Stage primaryStage) {
         // TODO Auto-generated method stub
         this.stage = primaryStage;
     }
 
-    private void initializePositions()
-    {
+    private void initializePositions() {
         raft.setPositionX(350);
         raft.setPositionY(320);
         farmer.setPositionX(120);
@@ -588,21 +655,25 @@ public class LEVEL_1 implements java.io.Serializable {
         this.startpage = startpage2;
     }
 
-    private void renderSprites(GraphicsContext gc, Sprite background, Sprite savebtn, Sprite resetbtn, Sprite loadbtn, Sprite movebtn) {
+    private void renderSprites(GraphicsContext gc, Sprite2 background, Sprite2 savebtn, Sprite2 resetbtn, Sprite2 loadbtn, Sprite2 movebtn, Sprite2 showbtn, Sprite2 undo, Sprite2 redo) {
         gc.clearRect(0, 0, 600, 600);
         background.render(gc);
         raft.render(gc);
         farmer.render(gc);
+        showbtn.render(gc);
         goat.render(gc);
         plant.render(gc);
         savebtn.render(gc);
         resetbtn.render(gc);
         loadbtn.render(gc);
         wolf.render(gc);
+        undo.render(gc);
         movebtn.render(gc);
+        redo.render(gc);
     }
+
     //saving gamestate
-    public void setGameState(Sprite farmer, Sprite raft, Sprite goat, Sprite wolf, Sprite plant) {
+    public void setGameState(Sprite2 farmer, Sprite2 raft, Sprite2 goat, Sprite2 wolf, Sprite2 plant) {
         farmerState = new SpriteGameState();
         goatState = new SpriteGameState();
         wolfState = new SpriteGameState();
@@ -628,10 +699,6 @@ public class LEVEL_1 implements java.io.Serializable {
         plantState.setPositionX(plant.getPositionX());
         plantState.setPositionY(plant.getPositionY());
         plantState.setLocation(plant.getLocation());
-
-       // crossers = crossers;
-
-
 
         gameState.setFarmerState(farmerState);
         gameState.setRaftState(raftState);

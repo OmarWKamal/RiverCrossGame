@@ -9,6 +9,7 @@ import java.util.Stack;
 public class CareTaker {
     //ArrayList<Memento> gamestates = new ArrayList<Memento>();
     Stack <Memento> gamestatesUndo = new Stack<Memento>();
+    Stack <Memento> gamestatesRedo = new Stack<Memento>();
 
     public Stack<Memento> getGamestatesUndo() {
         return gamestatesUndo;
@@ -22,28 +23,35 @@ public class CareTaker {
         return gamestatesRedo;
     }
 
+    public Memento redoGameState(){
+        Memento redo = gamestatesRedo.pop();
+        gamestatesRedo.clear();
+        return redo;
+    }
+
     public void setGamestatesRedo(Stack<Memento> gamestatesRedo) {
         this.gamestatesRedo = gamestatesRedo;
     }
-
-    Stack <Memento> gamestatesRedo = new Stack<Memento>();
 
     public void addMemento (Memento memento) {
         gamestatesUndo.push(memento);
     }
     public Memento getMementoUndoChar(){
         gamestatesRedo.push(gamestatesUndo.pop()); //bec the last element is the current gamestate
-        if(gamestatesUndo.empty()){
-            return null;
-        }
         return gamestatesUndo.pop();
         }
 
     public Memento getMementoUndoMove(int rowers){
-        //gamestatesRedo.push(gamestatesUndo.pop());
-        for(int i = 0 ; i < rowers; i++) {
+        System.out.println("rowers in function ************************    " + rowers);
+        gamestatesRedo.push(gamestatesUndo.pop());
+        /*if(rowers == 1){
             gamestatesUndo.pop();
-        }
+            return gamestatesUndo.pop();
+        } else{
+            gamestatesUndo.pop();
+            gamestatesUndo.pop();
+            return gamestatesUndo.pop();
+        }*/
         return gamestatesUndo.pop();
     }
 
