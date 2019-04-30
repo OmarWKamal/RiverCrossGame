@@ -1,7 +1,7 @@
 package View;
 
 import Level1Chars.Controller;
-import Level1Chars.Sprite2;
+import Level1Chars.Sprite;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,16 +13,16 @@ public class start_page {
     Stage stage;
     Scene scene;
     LEVEL_1 level_1;
-    LEVEL_2 level_2;
+    LEVEL_3 level_3;
     
     Controller controller;
     GraphicsContext gc;
     Image starimg = new Image ("Assets/star.png");
-    Sprite2 star = new Sprite2(starimg);
+    Sprite star = new Sprite(starimg);
     Image image1 = new Image("Assets/leve1 btn.png");
-    Sprite2 level1 = new Sprite2(image1);
+    Sprite level1 = new Sprite(image1);
     Image imagelvl2 = new Image("Assets/LEVEL2.png");
-    Sprite2 lvl2 = new Sprite2(imagelvl2);
+    Sprite lvl2 = new Sprite(imagelvl2);
     public start_page(Stage stage) {
         this.stage = stage;
     }
@@ -34,7 +34,7 @@ public class start_page {
           gc = canvas.getGraphicsContext2D();
 
         Image image = new Image("Assets/background.png");
-        Sprite2 background = new Sprite2(image);
+        Sprite background = new Sprite(image);
         background.setPositionX(0);
         background.setPositionY(0);
         background.render(gc);
@@ -62,7 +62,7 @@ System.out.println("width is  "+level1.getWidth()+  "  height is  "+level1.getHe
 
         	else  if ((x >= lvl2.getPositionX()) && (x < lvl2.getPositionX() + lvl2.getWidth())
                     && (y >= lvl2.getPositionY()) && (y < lvl2.getPositionY() + lvl2.getHeight())) {
-        		stage.setScene(level_2.getScene());
+        		stage.setScene(level_3.getScene());
         		System.out.println("a7ten");
         		
         	}
@@ -82,8 +82,8 @@ System.out.println("width is  "+level1.getWidth()+  "  height is  "+level1.getHe
     public void setlevel_1(LEVEL_1 level_1) {
         this.level_1 = level_1;
     }
-    public void setlevel_2(LEVEL_2 level_2) {
-        this.level_2 = level_2;
+    public void setlevel_2(LEVEL_3 level_3) {
+        this.level_3 = level_3;
     }
     public void set_star() {
     	controller = new Controller();

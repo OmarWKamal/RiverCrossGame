@@ -5,7 +5,7 @@ import Level1Chars.GameStates.CareTaker;
 import Level1Chars.GameStates.GameState;
 import Level1Chars.GameStates.Originator;
 import Level1Chars.GameStates.SpriteGameState;
-import Level1Chars.Sprite2;
+import Level1Chars.Sprite;
 import Level1Chars.Strategy;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -18,15 +18,15 @@ import javafx.stage.Stage;
 public class LEVEL_1 implements java.io.Serializable {
     private boolean gamestate; // false for a char undo, true for a move undo
     private Image farmer_img = new Image("Assets/farmer.png");
-    private Sprite2 farmer = new Sprite2(farmer_img);
+    private Sprite farmer = new Sprite(farmer_img);
     private Image wolf_img = new Image("Assets/wolf.png");
-    private Sprite2 wolf = new Sprite2(wolf_img);
+    private Sprite wolf = new Sprite(wolf_img);
     private Image goat_img = new Image("Assets/sheep.png");
-    private Sprite2 goat = new Sprite2(goat_img);
+    private Sprite goat = new Sprite(goat_img);
     private Image raftImage = new Image("Assets/raft.png");
-    private Sprite2 raft = new Sprite2(raftImage);
+    private Sprite raft = new Sprite(raftImage);
     private Image plant_img = new Image("Assets/plant.png");
-    private Sprite2 plant = new Sprite2(plant_img);
+    private Sprite plant = new Sprite(plant_img);
     private SpriteGameState farmerState;
     private SpriteGameState raftState;
     private SpriteGameState goatState;
@@ -77,24 +77,24 @@ public class LEVEL_1 implements java.io.Serializable {
         root.getChildren().add(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Image image = new Image("Assets/background.png");
-        Sprite2 background = new Sprite2(image);
+        Sprite background = new Sprite(image);
         background.setPositionX(0);
         background.setPositionY(0);
         background.render(gc);
         Image saveimg = new Image("Assets/save button.png");
-        Sprite2 savebtn = new Sprite2(saveimg);
+        Sprite savebtn = new Sprite(saveimg);
         savebtn.setPositionX(150);
         savebtn.setPositionY(0);
         savebtn.render(gc);
         Image loadimg = new Image("Assets/loadbtn.png");
-        Sprite2 loadbtn = new Sprite2(loadimg);
+        Sprite loadbtn = new Sprite(loadimg);
         loadbtn.setPositionX(250);
         loadbtn.setPositionY(0);
         loadbtn.render(gc);
 
         //*******************************************************
         Image instructions = new Image("Assets/show.png");
-        Sprite2 showbtn = new Sprite2(instructions);
+        Sprite showbtn = new Sprite(instructions);
         showbtn.setPositionX(400);
         showbtn.setPositionY(0);
         showbtn.render(gc);
@@ -102,12 +102,12 @@ public class LEVEL_1 implements java.io.Serializable {
 
         //*******************************************************
         Image undoimage = new Image("Assets/undo.png");
-        Sprite2 undo = new Sprite2(undoimage);
+        Sprite undo = new Sprite(undoimage);
         undo.setPositionX(0);
         undo.setPositionY(100);
         undo.render(gc);
         Image redoimage = new Image("Assets/redo.png");
-        Sprite2 redo = new Sprite2(redoimage);
+        Sprite redo = new Sprite(redoimage);
         redo.setPositionX(0);
         redo.setPositionY(300);
         redo.render(gc);
@@ -134,7 +134,7 @@ public class LEVEL_1 implements java.io.Serializable {
         raft.render(gc);
 
         Image button_img = new Image("Assets/button.png");
-        Sprite2 movebtn = new Sprite2(button_img);
+        Sprite movebtn = new Sprite(button_img);
         movebtn.setPositionX(500);
         movebtn.setPositionY(0);
         movebtn.render(gc);
@@ -144,7 +144,7 @@ public class LEVEL_1 implements java.io.Serializable {
         plant.render(gc);
 
         Image resetimg = new Image("Assets/reset-button.png");
-        Sprite2 resetbtn = new Sprite2(resetimg);
+        Sprite resetbtn = new Sprite(resetimg);
         resetbtn.setPositionX(0);
         resetbtn.setPositionY(0);
         resetbtn.render(gc);
@@ -473,7 +473,7 @@ public class LEVEL_1 implements java.io.Serializable {
                                     }
                                     controller.saveGame(farmer, raft, goat, wolf, plant);
                                     controller.resetGame();
-//                                    controller2.loadGame();
+//                                    controller3.loadGame();
                                     //    undo.setDisable(true);
                                     caretaker.clearStacks();
 
@@ -655,7 +655,7 @@ public class LEVEL_1 implements java.io.Serializable {
         this.startpage = startpage2;
     }
 
-    private void renderSprites(GraphicsContext gc, Sprite2 background, Sprite2 savebtn, Sprite2 resetbtn, Sprite2 loadbtn, Sprite2 movebtn, Sprite2 showbtn, Sprite2 undo, Sprite2 redo) {
+    private void renderSprites(GraphicsContext gc, Sprite background, Sprite savebtn, Sprite resetbtn, Sprite loadbtn, Sprite movebtn, Sprite showbtn, Sprite undo, Sprite redo) {
         gc.clearRect(0, 0, 600, 600);
         background.render(gc);
         raft.render(gc);
@@ -673,7 +673,7 @@ public class LEVEL_1 implements java.io.Serializable {
     }
 
     //saving gamestate
-    public void setGameState(Sprite2 farmer, Sprite2 raft, Sprite2 goat, Sprite2 wolf, Sprite2 plant) {
+    public void setGameState(Sprite farmer, Sprite raft, Sprite goat, Sprite wolf, Sprite plant) {
         farmerState = new SpriteGameState();
         goatState = new SpriteGameState();
         wolfState = new SpriteGameState();

@@ -79,16 +79,20 @@ public interface IRiverCrossingController  {
   
     public void saveGame();
 
-    void saveGame(Sprite2 farmer, Sprite2 raft, Sprite2 goat, Sprite2 wolf, Sprite2 plant);
+    void saveGame(Sprite farmer, Sprite raft, Sprite goat, Sprite wolf, Sprite plant);
+
+    void saveGame(Level2Chars.Sprite farmer1, Level2Chars.Sprite farmer2, Level2Chars.Sprite farmer3, Level2Chars.Sprite farmer4,
+                  Level2Chars.Sprite animal1, Level2Chars.Sprite animal2, Level2Chars.Sprite animal3, Level2Chars.Sprite animal4,
+                  Level2Chars.Sprite raft);
 
     /**
      * load the saved game state
      */
     public void loadGame();
 
-    void saveGame(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag);
+    void saveGame(Level3.Sprite2 boy, Level3.Sprite2 raft, Level3.Sprite2 girl, Level3.Sprite2 man, Level3.Sprite2 woman, Level3.Sprite2 bag);
 
-    void saveGame2(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag);
+    void saveGame2(Level3.Sprite2 boy, Level3.Sprite2 raft, Level3.Sprite2 girl, Level3.Sprite2 man, Level3.Sprite2 woman, Level3.Sprite2 bag);
 
     void   loadGame2();
 

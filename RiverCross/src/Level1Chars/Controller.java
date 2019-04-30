@@ -19,12 +19,12 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     LEVEL_1 level_1;
     Strategy strategy1;
     start_page start_page;
-    public Sprite2 x1; //farmer/
-    public Sprite2 x2; //raft
-    public Sprite2 x3; //goat
-    public Sprite2 x4; //wolf
-    public Sprite2 x5; //plant
-    public Sprite2 x6; //star
+    public Sprite x1; //farmer/
+    public Sprite x2; //raft
+    public Sprite x3; //goat
+    public Sprite x4; //wolf
+    public Sprite x5; //plant
+    public Sprite x6; //star
     public Controller() {
     }
 
@@ -426,7 +426,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     }
 
     @Override
-    public void saveGame(Sprite2 farmer, Sprite2 raft, Sprite2 goat, Sprite2 wolf , Sprite2 plant) {
+    public void saveGame(Sprite farmer, Sprite raft, Sprite goat, Sprite wolf , Sprite plant) {
         try {
             //	FileOutputStream filestream = new FileOutputStream(new File("./save_level1.xml"));
             XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream(new File (("./save_level1.xml")))));
@@ -446,6 +446,11 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     }
 
     @Override
+    public void saveGame(Level2Chars.Sprite farmer1, Level2Chars.Sprite farmer2, Level2Chars.Sprite farmer3, Level2Chars.Sprite farmer4, Level2Chars.Sprite animal1, Level2Chars.Sprite animal2, Level2Chars.Sprite animal3, Level2Chars.Sprite animal4, Level2Chars.Sprite raft) {
+
+    }
+
+    @Override
     public  void  loadGame() {
         FileInputStream file;
         LowerBankCrossers.clear();
@@ -455,11 +460,11 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
             file = new FileInputStream (new File("./save_level1.xml"));
             XMLDecoder decoder = new XMLDecoder(file);
 
-            x1 = (Sprite2) decoder.readObject();
-            x2= (Sprite2) decoder.readObject();
-            x3= (Sprite2) decoder.readObject();
-            x4 = (Sprite2) decoder.readObject();
-            x5= (Sprite2) decoder.readObject();
+            x1 = (Sprite) decoder.readObject();
+            x2= (Sprite) decoder.readObject(); //x2 is raft
+            x3= (Sprite) decoder.readObject();
+            x4 = (Sprite) decoder.readObject();
+            x5= (Sprite) decoder.readObject();
             decoder.close();
 
             System.out.println("farmer location " + x1.getLocation());
@@ -538,12 +543,12 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     }
 
     @Override
-    public void saveGame(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag) {
+    public void saveGame(Level3.Sprite2 boy, Level3.Sprite2 raft, Level3.Sprite2 girl, Level3.Sprite2 man, Level3.Sprite2 woman, Level3.Sprite2 bag) {
 
     }
 
     @Override
-    public void saveGame2(Level2Chars.Sprite2 boy, Level2Chars.Sprite2 raft, Level2Chars.Sprite2 girl, Level2Chars.Sprite2 man, Level2Chars.Sprite2 woman, Level2Chars.Sprite2 bag) {
+    public void saveGame2(Level3.Sprite2 boy, Level3.Sprite2 raft, Level3.Sprite2 girl, Level3.Sprite2 man, Level3.Sprite2 woman, Level3.Sprite2 bag) {
 
     }
 

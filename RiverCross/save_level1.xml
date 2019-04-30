@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="1.8.0_201" class="java.beans.XMLDecoder">
- <object class="Level1Chars.Sprite2">
+ <object class="Level1Chars.Sprite">
   <void property="finish">
    <int>1</int>
   </void>
@@ -23,7 +23,7 @@
    <double>24.0</double>
   </void>
  </object>
- <object class="Level1Chars.Sprite2">
+ <object class="Level1Chars.Sprite">
   <void property="height">
    <double>147.0</double>
   </void>
@@ -37,7 +37,7 @@
    <double>150.0</double>
   </void>
  </object>
- <object class="Level1Chars.Sprite2">
+ <object class="Level1Chars.Sprite">
   <void property="height">
    <double>119.0</double>
   </void>
@@ -54,7 +54,7 @@
    <double>150.0</double>
   </void>
  </object>
- <object class="Level1Chars.Sprite2">
+ <object class="Level1Chars.Sprite">
   <void property="height">
    <double>78.0</double>
   </void>
@@ -71,7 +71,7 @@
    <double>100.0</double>
   </void>
  </object>
- <object class="Level1Chars.Sprite2">
+ <object class="Level1Chars.Sprite">
   <void property="height">
    <double>110.0</double>
   </void>
